@@ -1,6 +1,5 @@
 from urllib.request import urlopen,Request
 import re
-from xml.dom.expatbuilder import theDOMImplementation
 
 from pymongo import MongoClient
 
