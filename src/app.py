@@ -26,17 +26,20 @@ app = Flask(__name__)
 def runindexer():
     return "a"
 
-"""@app.route("/api/mod/reindex/<site>")
+"""
+@app.route("/api/mod/reindex/<site>")
 def reindexsite():
-    return "remove from mongo and re-fetch all indexes from that""""
+    return "remove from mongo and re-fetch all indexes from that
 
 @app.route("/api/mod/dropindexes")
 def dropindexes():
     return "remove all indexes"
+"""
 
 @app.route("/api/getresults/<query>")
 def getsearch(query):
-    return query
+    print(db["html"].find({"html":"meower"}))
+    return "a"
 
 @app.route("/api/getheaders/<site>/")
 def getheaders(site):
@@ -46,6 +49,8 @@ def getheaders(site):
 def root():
     return "<body><script>location.replace('./api/')</script></body>"
 
+#/api/mod/dropindexes, Returns StatusCode (not added)
+
 @app.route("/api/")
 def apidoc():
     return """<pre>
@@ -54,6 +59,5 @@ def apidoc():
             /api/getresults/<query>, Returns JSON
             /api/status, Returns JSON
             /api/mod/runindexer, Returns Error or string, Headers: modkey, baseurl and time
-            /api/mod/dropindexes, Returns StatusCode
             /api/getheaders/<site>, Returns JSON
     </pre>"""
