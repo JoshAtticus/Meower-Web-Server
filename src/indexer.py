@@ -14,9 +14,8 @@ blockedchars = [
     "{",
     "}",
     #filetypes
-    ".css",
-    ".js",
-    ".png"
+    ".png",
+    ".svg"
 ]
 
 blocked = ["https://facebook.com/creativecommons"]
@@ -42,7 +41,6 @@ def jumptopage(data_page):
 
             req = Request(sitelink + "/", headers=headers)
             data = urlopen(req).read().decode()# send the request and save the response
-            pastlinks.append(sitelink)
             db["html"].insert_one({"_id":sitelink,"html":data})
             try:
                 headers = {
