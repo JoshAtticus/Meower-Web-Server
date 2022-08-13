@@ -1,16 +1,20 @@
 import random
-from flask import Flask
+from flask import Flask, request
 from urllib.request import urlopen,Request
 import re
 import hashlib
 
 """
     todo:
-        add reindexing
+        None
+
+    later/might need help:
+        add auto 4 hourly reindexing
         optimizations
         add json to db for from site
         index sitemap/robots.txt parser
-        disc and title
+        disc
+        meower member info card
 """
 
 headers = {
@@ -31,14 +35,11 @@ db["html"].create_index("html")
 
 app = Flask(__name__)
 
-"""
 @app.route("/api/mod/logs")
 def getlogs():
-    return "logs of search engine" 
+    return request.headers.values
 
-@app.route("/api/mod/reindex/<site>")
-def reindexsite():
-    return "remove from mongo and re-fetch all indexes from that"
+"""
 
 @app.route("/api/mod/runindex/<site>/<time>")
 def indexsite(site,time):
@@ -51,6 +52,11 @@ def dropindexes():
 @app.route("/api/mod/blocksite/<site>")
 def blocksite():
     return "block site and remove from mongo"
+
+@app.route("/api/mod/addsearchres/<search>")
+headers: res
+def addsearchres(search):
+    return "easter egg type stuff
 """
 
 @app.route("/api/regenmodkey")
@@ -93,9 +99,7 @@ def getsearch(query):
             i = 1
 
             for m in re.finditer("title", doc["html"]):
-                print("for")
                 while True:
-                    print("finding")
                     if doc["html"][m.end() + i] == '<':
                         break
                     title = title + doc["html"][m.end() + i]
@@ -106,18 +110,23 @@ def getsearch(query):
 
     if len(queries) == 0:
         queries = "No Search Results"
+    
+    if query.lower() == "meowy":
+        queries = "meowies_fall"
     return queries
 
 @app.route("/")
 def root():
     return "<body><script>location.replace('./api/')</script></body>"
 
-#/api/mod/dropindexes, Returns StatusCode (not added)
 #/api/mod/runindex/<site>/<time>, Returns Error or string, Headers: modkey
-#/api/mod/reindex/<site>
 #/api/mod/logs
 #/api/mod/blocksite/<site>
 #/api/regenmodkey
+
+#later:
+#/api/mod/addcard/<search>/<cardtitle>/<cardesc>, headers: res: JSON
+#/api/mod/dropindexes, Returns StatusCode (not added)
 
 @app.route("/api/")
 def apidoc():
